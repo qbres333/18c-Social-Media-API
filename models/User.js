@@ -37,6 +37,15 @@ const userSchema = new Schema(
     ],
   },
   {
+    virtuals: {
+        friendCount: {
+            get() {
+                return this.friends.length;
+            }
+        }
+    }
+  },
+  {
     toJSON: {
       getters: true,
       virtuals: true,
