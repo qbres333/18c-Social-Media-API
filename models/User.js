@@ -1,6 +1,7 @@
 // import model and schema using destructuring assignment
 const { Schema, model } = require('mongoose');
-const thoughtSchema = require('./Thought');
+
+// const thoughtSchema = require('./Thought');
 
 // schema to create User model
 const userSchema = new Schema(
@@ -9,6 +10,7 @@ const userSchema = new Schema(
       type: String,
       required: true,
       unique: true,
+      trim: true,
       max_length: 30,
     },
     email: {
@@ -21,12 +23,23 @@ const userSchema = new Schema(
         message: "Invalid email address",
       },
     },
-    thoughts: [thoughtSchema],
-    friends: [userSchema], //self-reference
+    thoughts: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "thought",
+      },
+    ],
+    friends: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "user", //self-reference
+      },
+    ],
   },
   {
     toJSON: {
       getters: true,
+      virtuals: true,
     },
   }
 );

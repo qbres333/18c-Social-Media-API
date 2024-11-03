@@ -4,3 +4,6 @@
 
 Mongoose Validation:
 https://mongoosejs.com/docs/validation.html
+
+Mongoose Getters and Setters:
+https://mongoosejs.com/docs/tutorials/getters-setters.html
