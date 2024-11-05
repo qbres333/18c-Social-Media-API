@@ -1,6 +1,4 @@
-/* schema only: reactionId, reactionBody, username, createdAt
-*/
-// import model and types using destructuring assignment
+// import schema and types using destructuring assignment
 const { Schema, Types } = require('mongoose');
 
 const reactionSchema = new Schema(
