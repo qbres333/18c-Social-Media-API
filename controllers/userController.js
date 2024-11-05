@@ -28,7 +28,9 @@ module.exports = {
 
           // return error message if user not found
           if (!user) {
-            return res.status(404).json({ message: "No user with that ID" });
+            return res
+              .status(404)
+              .json({ message: "No user with that ID found" });
           }
           // otherwise return user data
           res.status(200).json({
@@ -64,7 +66,7 @@ module.exports = {
             );
             // return error message if user not found
             if (!user) {
-                return res.status(404).json({ message: 'No user with that ID'});
+                return res.status(404).json({ message: 'No user with that ID found'});
             }
             // otherwise return updated user data
             res.status(200).json(user);
@@ -81,7 +83,9 @@ module.exports = {
             const user = await User.findOneAndDelete({ _id: req.params.userId });
             // return error message if user not found
             if (!user) {
-                return res.status(404).json({ message: 'No user with that ID'});
+                return res
+                  .status(404)
+                  .json({ message: "No user with that ID found" });
             }
             // delete associated thoughts
             await Thought.deleteMany({ _id: {$in: user.thoughts } });
