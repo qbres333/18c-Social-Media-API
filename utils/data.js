@@ -36,41 +36,46 @@ const reactionsArray = [
     'elegant',
 ]
 
-// function to get a random item from an array; mod18 act 28
-const randomItem = (arr) => arr[Math.floor(Math.random() * arr.length)];
+// loop through the array items and 
+let currentIndex = 0;
+const arrayItem = (arr) => {
+    // let currentIndex = 0;
+    if (currentIndex >= arr.length) {
+        currentIndex = 0;
+    }
+    return arr[currentIndex++];
+};
 
 // function to get random username
-const getRandomUser = () => `${randomItem(usernames)}`;
+const getUser = () => `${arrayItem(usernames)}`;
 
 // function to get random email
-const getRandomEmail = () => `${randomItem(emails)}`;
+const getEmail = () => `${arrayItem(emails)}`;
 
-// function to get random thoughts
-const getRandomThought = (num) => {
-  // create an empty array to store the results
-  const results = [];
-  // loop through the thoughts array and push into the results array
-  for (let i = 0; i < num; i++) {
-    results.push({ thoughts: randomItem(thoughtsArray) });
-  }
-  return results;
-}
+// // function to get random thoughts
+// const getRandomThought = (num) => {
+//   // create an empty array to store the results
+//   const results = [];
+//   // loop through the thoughts array and push into the results array
+//   for (let i = 0; i < num; i++) {
+//     results.push({ thoughts: randomItem(thoughtsArray) });
+//   }
+//   return results;
+// }
 
-// function to get random reactions
-const getRandomReaction = (num) => {
-  // create an empty array to store the results
-  const results = [];
-  // loop through the reactions array and push into the results array
-  for (let i = 0; i < num; i++) {
-    results.push({ reactions: randomItem(reactionsArray) });
-  }
-  return results;
-}
+// // function to get random reactions
+// const getRandomReaction = (num) => {
+//   // create an empty array to store the results
+//   const results = [];
+//   // loop through the reactions array and push into the results array
+//   for (let i = 0; i < num; i++) {
+//     results.push({ reactions: randomItem(reactionsArray) });
+//   }
+//   return results;
+// }
 
 // export the functions for use in seed.js
 module.exports = {
-  getRandomUser,
-  getRandomEmail,
-  getRandomThought,
-  getRandomReaction,
+  getUser,
+  getEmail
 };

@@ -18,8 +18,14 @@ const userSchema = new Schema(
       required: true,
       unique: true,
       validate: {
-        //Mongoose validation docs
-        validator: () => Promise.resolve(false),
+        //use regex to validate email: , characters between the @ and . , then at least 2 characters after the .
+        /** user part of email: [w-\.]+  //at least 1 word character (incl. hyphen, period) before the @
+         * email domain (grouped in () to match domains & subdomains (@jo.msn.org) between the @ and period): ([\w-]+\.)+
+         * top-level domain: [\w-]{2,}  //at least 2 characters (incl. hyphen) after the domain/subdomain
+         */
+        validator: function (v) {
+          return /^[\w-\.]+@([\w-]+\.)+[\w-]{2,}$/;
+        },
         message: "Invalid email address",
       },
     },
@@ -38,12 +44,12 @@ const userSchema = new Schema(
   },
   {
     virtuals: {
-        friendCount: {
-            get() {
-                return this.friends.length;
-            }
-        }
-    }
+      friendCount: {
+        get() {
+          return this.friends.length;
+        },
+      },
+    },
   },
   {
     toJSON: {

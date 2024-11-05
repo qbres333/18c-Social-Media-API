@@ -1,10 +1,7 @@
 // database connection
 const connection = require('../config/connection');
 const { User, Thought } = require('../models');
-const { getRandomUser,
-  getRandomEmail,
-  getRandomThought,
-  getRandomReaction} = require('./data');
+const { getUser, getEmail } = require("./data");
 
 // show the error if there is a connection error
 connection.on('error', (err) => err);
@@ -28,12 +25,10 @@ connection.once('open', async () => {
 
     // loop 5 times to randomly assign data to users
     for (let i = 0; i < 5; i++) {
-        const thoughts = getRandomThought(2); //randomly assign 2 thoughts
-        const reactions = getRandomReaction(2); //randomly assign 2 reactions
-        const username = getRandomUser();
-        const email = getRandomEmail();
+        const username = getUser();
+        const email = getEmail();
         // push the values into the array
-        users.push({ username, email, thoughts, reactions });
+        users.push({ username, email });
     };
 
     // add users to the collection

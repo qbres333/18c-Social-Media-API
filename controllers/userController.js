@@ -22,7 +22,9 @@ module.exports = {
     // get a single user with thought and friend data
     async getOneUser(req, res) {
         try {
-          const user = await User.findOne({ _id: req.params.userId }).lean(); // return a plain JavaScript object
+          const user = await User.findOne({ _id: req.params.userId })
+            .populate("thoughts")
+            .lean(); // return a plain JavaScript object
 
           // return error message if user not found
           if (!user) {
