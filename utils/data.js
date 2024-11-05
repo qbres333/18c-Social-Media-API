@@ -36,7 +36,7 @@ const reactionsArray = [
     'elegant',
 ]
 
-// loop through the array items and 
+// loop through the array items and assign sequentially
 let currentIndex = 0;
 const arrayItem = (arr) => {
     // let currentIndex = 0;
@@ -52,27 +52,6 @@ const getUser = () => `${arrayItem(usernames)}`;
 // function to get random email
 const getEmail = () => `${arrayItem(emails)}`;
 
-// // function to get random thoughts
-// const getRandomThought = (num) => {
-//   // create an empty array to store the results
-//   const results = [];
-//   // loop through the thoughts array and push into the results array
-//   for (let i = 0; i < num; i++) {
-//     results.push({ thoughts: randomItem(thoughtsArray) });
-//   }
-//   return results;
-// }
-
-// // function to get random reactions
-// const getRandomReaction = (num) => {
-//   // create an empty array to store the results
-//   const results = [];
-//   // loop through the reactions array and push into the results array
-//   for (let i = 0; i < num; i++) {
-//     results.push({ reactions: randomItem(reactionsArray) });
-//   }
-//   return results;
-// }
 
 // export the functions for use in seed.js
 module.exports = {

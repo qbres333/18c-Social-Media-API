@@ -3,9 +3,6 @@ const express = require("express");
 const db = require("./config/connection");
 const routes = require("./routes");
 
-// retreive current working directory
-const cwd = process.cwd();
-
 // set the port and initialize an express instance
 const PORT = process.env.port || 3001;
 const app = express();

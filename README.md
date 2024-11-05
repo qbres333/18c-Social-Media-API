@@ -10,3 +10,6 @@ https://mongoosejs.com/docs/tutorials/getters-setters.html
 
 Mongoose Middleware:
 https://mongoosejs.com/docs/middleware.html#pre
+
+Mongoose Pull operator (for deletion):
+https://www.mongodb.com/docs/manual/reference/operator/update/pull/

@@ -23,7 +23,7 @@ connection.once('open', async () => {
     // create an empty array to store user data
     const users = [];
 
-    // loop 5 times to randomly assign data to users
+    // loop 5 times to assign data to users
     for (let i = 0; i < 5; i++) {
         const username = getUser();
         const email = getEmail();
