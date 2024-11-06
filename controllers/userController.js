@@ -7,12 +7,13 @@ module.exports = {
   // get all users (include friendCount virtual)
   async getAllUsers(req, res) {
     try {
-      const users = await User.find();
+      const users = await User.find().lean(); // added lean to remove duplicate "id" property
       const usersObj = {
-        users,
-        // friendCount: await friendCount(),
+        users
       };
+      // return user data
       return res.status(200).json(usersObj);
+
     } catch (err) {
       console.log(err);
       return res.status(500).json(err);
@@ -33,7 +34,6 @@ module.exports = {
       // otherwise return user data
       res.status(200).json({
         user,
-        friendCount: await friendCount(),
       });
     } catch (err) {
       console.log(err);
@@ -61,7 +61,7 @@ module.exports = {
         // ensure that updated user adheres to validation rules set in the schema
         // return the updated (new) document rather than the original
         { runValidators: true, new: true }
-      );
+      ).lean();
       // return error message if user not found
       if (!user) {
         return res.status(404).json({ message: "No user with that ID found" });
@@ -102,7 +102,7 @@ module.exports = {
         { _id: req.params.userId },
         { $addToSet: { friends: req.body } },
         { runValidators: true, new: true }
-      );
+      ).lean();
 
       if (!user) {
         return res.status(404).json({ message: "No user found with that ID" });

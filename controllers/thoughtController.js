@@ -7,10 +7,9 @@ module.exports = {
   // get all thoughts (include reactionCount virtual)
   async getAllThoughts(req, res) {
     try {
-      const thoughts = await Thought.find();
+      const thoughts = await Thought.find().lean(); // added lean to remove duplicate "id" property
       const thoughtsObj = {
         thoughts,
-        reactionCount: await reactionCount(),
       };
       return res.status(200).json(thoughtsObj);
     } catch (err) {
@@ -23,8 +22,7 @@ module.exports = {
   async getOneThought(req, res) {
     try {
       const thought = await Thought.findOne({ _id: req.params.thoughtId })
-        // .populate("reactions")
-        // .lean(); // return a plain JavaScript object
+        .lean(); // return a plain JavaScript object
 
       // return error message if thought not found
       if (!thought) {
@@ -35,7 +33,6 @@ module.exports = {
       // otherwise return thought data
       res.status(200).json({
         thought,
-        reactionCount: await reactionCount(),
       });
     } catch (err) {
       console.log(err);
@@ -54,7 +51,7 @@ module.exports = {
         { _id: req.params.userId },
         { $addToSet: { thoughts: thought._id } },
         { runValidators: true, new: true }
-      );
+      ).lean();
 
       res.status(200).json({ thought, message: 'Thought created and added to user successfully'});
     } catch (err) {
@@ -72,7 +69,7 @@ module.exports = {
         // ensure that updated thought adheres to validation rules set in the schema
         // return the updated (new) document rather than the original
         { runValidators: true, new: true }
-      );
+      ).lean();
       // return error message if thought not found
       if (!thought) {
         return res
@@ -120,7 +117,7 @@ module.exports = {
         { _id: req.params.thoughtId },
         { $addToSet: { reactions: req.body } },
         { runValidators: true, new: true }
-      );
+      ).lean();
 
       if (!thought) {
         return res

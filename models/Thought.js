@@ -22,27 +22,37 @@ const thoughtSchema = new Schema(
     reactions: [reactionSchema],
   },
   {
-    virtuals: {
-      //virtuals documentation: set the getter within the schema
-      formatCreatedAt: {
-        get() {
-          return this.createdAt.toLocaleDateString();
-        },
-      },
-      reactionCount: {
-        get() {
-            return this.reactions.length;
-        }
-      }
-    },
-  },
-  {
     toJSON: {
       getters: true,
       virtuals: true,
     },
   }
 );
+
+//function to formate date (MDN docs: Intl.DateTimeFormat)
+function formatDate(date) {
+    const options = {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+      hour: "numeric",
+      minute: "numeric",
+      hour12: true,
+    };
+
+    return new Intl.DateTimeFormat('en-US', options).format(date);
+}
+
+// date formatting virtual
+thoughtSchema.virtual("formatCreatedAt").get(function() {
+    return formatDate(this.createdAt);
+});
+
+// reactionCount virtual
+thoughtSchema.virtual("reactionCount").get(function () {
+  return this.reactions.length;
+});
+
 
 // create Thought model based on thoughtSchema
 const Thought = model('thought', thoughtSchema);
