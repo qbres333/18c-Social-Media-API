@@ -7,9 +7,9 @@ module.exports = {
   // get all users (include friendCount virtual)
   async getAllUsers(req, res) {
     try {
-      const users = await User.find().lean(); // added lean to remove duplicate "id" property
+      const users = await User.find().populate('thoughts'); 
       const usersObj = {
-        users
+        users,
       };
       // return user data
       return res.status(200).json(usersObj);
@@ -25,7 +25,6 @@ module.exports = {
     try {
       const user = await User.findOne({ _id: req.params.userId })
         .populate("thoughts")
-        .lean(); // return a plain JavaScript object
 
       // return error message if user not found
       if (!user) {
@@ -61,7 +60,8 @@ module.exports = {
         // ensure that updated user adheres to validation rules set in the schema
         // return the updated (new) document rather than the original
         { runValidators: true, new: true }
-      ).lean();
+      );
+
       // return error message if user not found
       if (!user) {
         return res.status(404).json({ message: "No user with that ID found" });
@@ -102,26 +102,11 @@ module.exports = {
         { _id: req.params.userId },
         { $addToSet: { friends: req.body } },
         { runValidators: true, new: true }
-      ).lean();
+      );
 
       if (!user) {
         return res.status(404).json({ message: "No user found with that ID" });
       }
-
-    //   const friend = {...req.body};
-
-    //   // find the friend in the friends array (return msg if found)
-    //   if (user.friends.includes(friend._id)) {
-    //     return res
-    //       .status(400)
-    //       .json({ message: "You are already friends with this user" });
-    //   }
-
-    // //   if the new friend is not the user themselves, push the friendId to the friends array and save (user cannot be friends with themselves)
-    //   if (friendId !== user.userId) {
-    //     user.friends.push(friendId);
-    //     await user.save();
-    //   }
 
       return res.status(200).json({ user, message: "Friend added successfully" });
 
@@ -145,12 +130,6 @@ module.exports = {
       if (!user) {
         return res.status(404).json({ message: "No user found with that ID" });
       }
-    //   // return msg if friendId not found)
-    //   if (!user.friends.includes(friendId)) {
-    //     return res
-    //       .status(400)
-    //       .json({ message: "Cannot delete, you are not friends with this user" });
-    //   }
       
       res.status(200).json({ user, message: 'Friend deleted successfully'})
 

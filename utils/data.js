@@ -14,7 +14,7 @@ const emails = [
   "jkl@jkl.com",
   "mno@mno.com",
 ];
-// array of thoughts
+// array of thoughts for demo
 const thoughtsArray = [
   "the earth is roundish",
   "scotch is divine",
@@ -25,7 +25,7 @@ const thoughtsArray = [
   "baking is relaxing",
   "butter is bread lotion"
 ];
-// array of reactions
+// array of reactions for demo
 const reactionsArray = [
     'super',
     'goodness gracious',

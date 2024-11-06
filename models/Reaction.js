@@ -21,16 +21,7 @@ const reactionSchema = new Schema(
       //mod18 act 28
       type: Date,
       default: Date.now,
-    },
-  },
-  {
-    virtuals: {
-      //virtuals documentation: set the getter within the schema
-      formatCreatedAt: {
-        get() {
-          return this.createdAt.toLocaleDateString();
-        },
-      },
+      get: formatDate
     },
   },
   {
@@ -41,4 +32,26 @@ const reactionSchema = new Schema(
   }
 );
 
+
+//function to formate date (MDN docs: Intl.DateTimeFormat)
+function formatDate(date) {
+    const options = {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+      hour: "numeric",
+      minute: "numeric",
+      hour12: true,
+      timeZoneName: 'short'
+    };
+
+    const newDate = new Intl.DateTimeFormat('en-US', options).format(date);
+    const dateString = newDate.substring(0, newDate.lastIndexOf(','));
+    const timeString = newDate.substring(newDate.lastIndexOf(",") + 2);
+    return `${dateString} at ${timeString}`;
+}
+
+
 module.exports = reactionSchema;
+
+ 

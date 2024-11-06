@@ -14,6 +14,7 @@ const thoughtSchema = new Schema(
       //mod18 act 28
       type: Date,
       default: Date.now,
+      get: formatDate
     },
     username: {
       type: String,
@@ -38,15 +39,14 @@ function formatDate(date) {
       hour: "numeric",
       minute: "numeric",
       hour12: true,
+      timeZoneName: 'short'
     };
 
-    return new Intl.DateTimeFormat('en-US', options).format(date);
-}
-
-// date formatting virtual
-thoughtSchema.virtual("formatCreatedAt").get(function() {
-    return formatDate(this.createdAt);
-});
+    const newDate = new Intl.DateTimeFormat('en-US', options).format(date);
+    const dateString = newDate.substring(0, newDate.lastIndexOf(','));
+    const timeString = newDate.substring(newDate.lastIndexOf(",") + 2);
+    return `${dateString} at ${timeString}`;
+};
 
 // reactionCount virtual
 thoughtSchema.virtual("reactionCount").get(function () {
@@ -55,6 +55,7 @@ thoughtSchema.virtual("reactionCount").get(function () {
 
 
 // create Thought model based on thoughtSchema
-const Thought = model('thought', thoughtSchema);
+const Thought = model("thought", thoughtSchema);
+
 // export the model
 module.exports = Thought;
