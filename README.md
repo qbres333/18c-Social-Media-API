@@ -23,7 +23,6 @@ Using Express.js, MongoDB, and Mongoose ODM, I created this API to be used with 
 -- Mongoose ODM
 -- JavaScript
 
-
 ## Installation
 
 This API uses Express.js for routing, a MongoDB database to store data, and the Mongoose ODM library (in conjunction with Node.js) to model the data. In order to use the API locally, the user must install Node.js, MongoDB Community Edition (free version), and an API testing tool like Insomnia or Postman. A demo of the API functionality is provided below.
