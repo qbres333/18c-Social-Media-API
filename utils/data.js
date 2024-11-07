@@ -31,7 +31,7 @@ const reactionsArray = [
     'goodness gracious',
     '?????',
     'fun!',
-    'eh',
+    'whoa',
     'meh',
     'elegant',
 ]
@@ -39,7 +39,6 @@ const reactionsArray = [
 // loop through the array items and assign sequentially
 let currentIndex = 0;
 const arrayItem = (arr) => {
-    // let currentIndex = 0;
     if (currentIndex >= arr.length) {
         currentIndex = 0;
     }

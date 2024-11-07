@@ -1,18 +1,15 @@
 // import ObjectId method and models
 const { ObjectId } = require('mongoose').Types;
-const { Schema } = require('mongoose');
 const { User, Thought } = require('../models');
 
 module.exports = {
-  // get all users (include friendCount virtual)
+  // get all users (includes friendCount virtual)
   async getAllUsers(req, res) {
     try {
-      const users = await User.find().populate('thoughts'); 
-      const usersObj = {
-        users,
-      };
+      const users = await User.find(); 
+
       // return user data
-      return res.status(200).json(usersObj);
+      return res.status(200).json(users);
 
     } catch (err) {
       console.log(err);
@@ -24,13 +21,14 @@ module.exports = {
   async getOneUser(req, res) {
     try {
       const user = await User.findOne({ _id: req.params.userId })
-        .populate("thoughts")
+        .populate("thoughts") //show user's thought data
+        .populate('friends'); //show user's friend data
 
       // return error message if user not found
       if (!user) {
         return res.status(404).json({ message: "No user with that ID found" });
       }
-      // otherwise return user data
+      // return user data
       res.status(200).json({
         user,
       });
@@ -77,7 +75,10 @@ module.exports = {
   // delete a user and their associated thoughts; mod18 act 28
   async deleteUser(req, res) {
     try {
-      const user = await User.findOneAndDelete({ _id: req.params.userId });
+      const user = await User.findOneAndDelete(
+        { _id: req.params.userId },
+        { runValidators: true, new: true }
+      );
       // return error message if user not found
       if (!user) {
         return res.status(404).json({ message: "No user with that ID found" });
@@ -94,7 +95,7 @@ module.exports = {
     }
   },
 
-  // add friend to user friend list      // reference userId, friendId
+  // add friend to user friend list      // reference userId
   async addFriend(req, res) {
     try {
       // find the user (return error if not found)
@@ -103,13 +104,14 @@ module.exports = {
         { $addToSet: { friends: req.body } },
         { runValidators: true, new: true }
       );
-
+      // return error message if user not found
       if (!user) {
         return res.status(404).json({ message: "No user found with that ID" });
       }
 
-      return res.status(200).json({ user, message: "Friend added successfully" });
-
+      return res
+        .status(200)
+        .json({ user, message: "Friend added successfully" });
     } catch (err) {
       console.log(err);
       return res.status(500).json(err);
@@ -121,18 +123,17 @@ module.exports = {
     try {
       // find the user (return error if not found)
       const user = await User.findOneAndUpdate(
-        { _id: req.params.userId},
+        { _id: req.params.userId },
         // use Mongoose $pull method to remove friend from friends array
-        { $pull: { friends: { friendId: req.params.friendId } } },
+        { $pull: { friends: req.params.friendId } },
         { runValidators: true, new: true }
       );
-
+      // return error message if user not found
       if (!user) {
         return res.status(404).json({ message: "No user found with that ID" });
       }
-      
-      res.status(200).json({ user, message: 'Friend deleted successfully'})
 
+      res.status(200).json({ user, message: "Friend deleted successfully" });
     } catch (err) {
         console.log(err);
         return res.status(500).json(err);

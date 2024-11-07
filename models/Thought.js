@@ -1,6 +1,5 @@
 // import model and schema using destructuring assignment
 const { Schema, model } = require("mongoose");
-
 const reactionSchema = require('./Reaction');
 
 const thoughtSchema = new Schema(

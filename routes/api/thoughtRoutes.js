@@ -1,6 +1,6 @@
 const router = require("express").Router();
 
-// import user controller functions
+// import thought controller functions
 const {
   getAllThoughts,
   getOneThought,
